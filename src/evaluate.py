@@ -30,9 +30,9 @@ if __name__ == '__main__':
     net = torch.load('../model/net.pt')
     batch_size, num_steps1,num_steps2 = 64, 1000,30
     device = try_gpu()
-    train_iter, vocab = load_data_nlpcc(batch_size, num_steps1,num_steps2)
+    train_iter, vocab = load_data_nlpcc(batch_size, num_steps1,num_steps2,min_freq=2)
     for content, title in zip(contents, titles):
-        summarization, attention_weight_seq = predict_seq2seq(
+        summarization = predict_seq2seq(
             net, content, vocab, num_steps1,num_steps2, device)
-        print(f'{{\n  "content": "{"".join(content)}",\n  "summarization": "{"".join(summarization)}",\n  "bleu": {bleu(summarization, title, k=2):.3f}\n}}\n')
+        print(f'{{\n  "content": "{"".join(content)}",\n  "summarization": "{summarization.replace(" ", "")}",\n  "bleu": {bleu(summarization, title, k=2):.3f}\n}}\n')
 

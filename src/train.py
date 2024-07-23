@@ -55,7 +55,7 @@ if __name__ == '__main__':
     batch_size, num_steps1 ,num_steps2= 64, 1000,30
     lr, num_epochs, device = 0.005, 300, try_gpu()
 
-    train_iter, vocab = load_data_nlpcc(batch_size, num_steps1,num_steps2)
+    train_iter, vocab = load_data_nlpcc(batch_size, num_steps1,num_steps2,min_freq=2)
     encoder = Seq2SeqEncoder(len(vocab), embed_size, num_hiddens, num_layers,
                              dropout)
     decoder = Seq2SeqDecoder(len(vocab), embed_size, num_hiddens, num_layers,
@@ -63,5 +63,5 @@ if __name__ == '__main__':
     net = EncoderDecoder(encoder, decoder)
     train_seq2seq(net, train_iter, lr, num_epochs, vocab, device)
     torch.save(net, '../model/net.pt')
-    #net = torch.load('../model/net.pt')
+    #net = torch.load('../model/net_vocab0.pt')
     plt.show()

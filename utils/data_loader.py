@@ -11,14 +11,14 @@ from torch.utils import data
 from utils.utils import use_svg_display
 
 
-def read_data_nlpcc():
+def read_data_nlpcc(num_examples=10000):
     '''
     仅取前10000(共5w)
     :return:
     '''
     data_dir = '../data/'
     with open(os.path.join(data_dir, 'nlpcc_data.json'), 'r') as f:
-        return json.loads(f.read())[:10000]
+        return json.loads(f.read())[:num_examples]
 
 
 def tokenize_nlpcc(dict_list,num_examples=None):
@@ -144,13 +144,13 @@ def load_array(data_arrays, batch_size, is_train=True):
     return data.DataLoader(dataset, batch_size, shuffle=is_train)
 
 
-def load_data_nlpcc(batch_size, num_steps1,num_steps2, num_examples=1000):
+def load_data_nlpcc(batch_size, num_steps1,num_steps2, num_examples=1000,min_freq=0):
     """Return the iterator and the vocabularies of the translation dataset.
 
     Defined in :numref:`subsec_mt_data_loading`"""
     text = read_data_nlpcc()
     source, target = tokenize_nlpcc(text,num_examples)
-    vocab = Vocab(source+target,reserved_tokens=['<pad>', '<bos>', '<eos>'])
+    vocab = Vocab(source+target,reserved_tokens=['<pad>', '<bos>', '<eos>'],min_freq=min_freq)
     src_array, src_valid_len = build_array_nlpcc(source, vocab, num_steps1)
     tgt_array, tgt_valid_len = build_array_nlpcc(target, vocab, num_steps2)
     data_arrays = (src_array, src_valid_len, tgt_array, tgt_valid_len)
