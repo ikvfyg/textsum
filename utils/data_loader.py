@@ -8,7 +8,7 @@ import torch
 from matplotlib import pyplot as plt
 from torch.utils import data
 
-from utils.utils import use_svg_display
+from utils import use_svg_display
 
 
 def read_data_nlpcc(num_examples=10000):
@@ -163,13 +163,14 @@ astype = lambda x, *args, **kwargs: x.type(*args, **kwargs)
 int32 = torch.int32
 
 if __name__ == '__main__':
-    train_iter, vocab = load_data_nlpcc(batch_size=2, num_steps1=1000,num_steps2=30)
-    for X, X_valid_len, Y, Y_valid_len in train_iter:
-        print('X:', X.type(torch.int32))
-        print('X的有效长度:', X_valid_len)
-        print('Y:', Y.type(torch.int32))
-        print('Y的有效长度:', Y_valid_len)
-        break
+    train_iter, vocab = load_data_nlpcc(batch_size=2, num_steps1=1000,num_steps2=30,min_freq=2)
+    print(len(vocab))
+    # for X, X_valid_len, Y, Y_valid_len in train_iter:
+    #     print('X:', X.type(torch.int32))
+    #     print('X的有效长度:', X_valid_len)
+    #     print('Y:', Y.type(torch.int32))
+    #     print('Y的有效长度:', Y_valid_len)
+    #     break
     # print(len(read_data_nlpcc()))
     # contents, titles = tokenize_nlpcc(read_data_nlpcc())
     # count=[0,0]

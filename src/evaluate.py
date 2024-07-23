@@ -34,5 +34,5 @@ if __name__ == '__main__':
     for content, title in zip(contents, titles):
         summarization = predict_seq2seq(
             net, content, vocab, num_steps1,num_steps2, device)
-        print(f'{{\n  "content": "{"".join(content)}",\n  "summarization": "{summarization.replace(" ", "")git}",\n  "bleu": {bleu(summarization, title, k=2):.3f}\n}}\n')
+        print(f'{{\n  "content": "{"".join(content)}",\n  "summarization": "{summarization.replace(" ", "")}",\n  "bleu": {bleu(summarization, title, k=2):.3f}\n}}\n')
 
